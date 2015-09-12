@@ -44,7 +44,6 @@
                 <junit printsummary="yes" fork="yes" haltonfailure="yes">
                         <classpath refid="test.classpath" />
                         <formatter type="brief" usefile="false" />
-                        <test name="TestCore" />
                 </junit>
     </target>
 
