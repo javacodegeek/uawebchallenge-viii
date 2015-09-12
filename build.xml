@@ -10,7 +10,7 @@
     <path id="test.classpath">
         <pathelement location = "${external.lib.dir}" />
         <fileset dir = "${external.lib.dir}">
-            <include name="*.jar"/>
+            <include name="**/*.jar"/>
         </fileset>
         <pathelement location = "${test.dir}" />
         <pathelement location = "${src.dir}" />
@@ -30,6 +30,7 @@
             <src path = "${src.dir}" />
             <src path = "${test.dir}" />
         </javac>
+
     </target>
 
     <target name = "make_jar" description = "Make jar file" depends = "docs">
@@ -37,6 +38,7 @@
             <manifest>
                 <attribute name="Main-Class" value="TwitterAvatarCollage"/>
             </manifest>
+            <zipgroupfileset dir="${external.lib.dir}"/>  
         </jar>
     </target>
 
@@ -65,6 +67,7 @@
 
     <target name = "run" description = "Run programm">
         <java jar = "${jar.dir}/twitter-collage-generator.jar" fork = "true">
+          <classpath refid="test.classpath" />
         </java>
     </target>
 
