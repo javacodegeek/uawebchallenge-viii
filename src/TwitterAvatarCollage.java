@@ -13,7 +13,7 @@ public class TwitterAvatarCollage {
   	     System.out.println("Run....");
          TwitterClient twitter = TwitterClient.getInstance();
 
-        /* JSONObject followingsObject = twitter.getUserFollowings("AntonShevchuk", "-1");
+         JSONObject followingsObject = twitter.getUserFollowings("AntonShevchuk", "-1");
          Object objectFollns = followingsObject.get("ids");
          JSONArray followingsList = (JSONArray)objectFollns;
          long next_cursor = (long)(followingsObject.get("next_cursor"));
@@ -36,20 +36,34 @@ public class TwitterAvatarCollage {
          }
 
          String[] ids = idsString.split(",");
-         System.out.println(ids.length);*/
 
-        /* Object userObjects = twitter.getUserObjectList("203090216,42081171,24583667");
+        StringBuilder str = new StringBuilder();
+        for (int i=0; i<20; i++){
+              str.append(ids[i]);
+              if(i<19) {str.append(",");}
+        }
+
+
+
+
+         Object userObjects = twitter.getUserObjectList(str.toString());
          JSONArray userObjectsList = (JSONArray)userObjects;
          for(int i = 0; i < userObjectsList.size(); i++){
               JSONObject user = (JSONObject)(userObjectsList.get(i));
+
+              String url = user.get("profile_image_url").toString();
+              String name = user.get("id") + "_small";
+              twitter.saveImage(url, name);
+            //  twitter.saveImage((user.get("profile_image_url")).replace("normal","400x400"), user.get("id") + "_big");
+
               System.out.println(user.get("id"));
+
               System.out.println(user.get("profile_image_url"));
               System.out.println(user.get("statuses_count"));
               System.out.println(user.get("name"));
               System.out.println();
-         }*/
+         }
 
-         twitter.saveImage();
 
     }
 }

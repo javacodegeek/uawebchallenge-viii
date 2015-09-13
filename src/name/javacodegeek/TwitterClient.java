@@ -12,6 +12,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import java.util.Arrays;
 
 
 
@@ -64,12 +65,17 @@ public class TwitterClient {
           return null;
     }
 
-    public static void saveImage() {
+    public static void saveImage(String url, String imageName) {
       try{
           OAuthConsumer oAuthConsumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,CONSUMER_SECRET);
           oAuthConsumer.setTokenWithSecret(ACCESS_TOKEN, CONSUMACCESS_TOKEN_SECRET);
 
-          HttpGet httpGet = new HttpGet("http://pbs.twimg.com/profile_images/590602680340480002/9T12byKD_400x400.png");
+          HttpGet httpGet = new HttpGet(url);
+
+          String[] extArr = url.split("\\.");
+
+          String extFile = extArr[extArr.length-1];
+
           oAuthConsumer.sign(httpGet);
 
           HttpClient httpClient = new DefaultHttpClient();
@@ -78,26 +84,14 @@ public class TwitterClient {
           int statusCode = httpResponse.getStatusLine().getStatusCode();
           System.out.println("status code:  " + statusCode);
           if (statusCode == 200) {
-              /*BufferedReader rd = new BufferedReader(
-              new InputStreamReader(httpResponse.getEntity().getContent()));
-
-              StringBuffer result = new StringBuffer();
-              String line = "";
-              while ((line = rd.readLine()) != null) {
-                result.append(line);
-              }*/
-
-
               InputStream is = httpResponse.getEntity().getContent();
-
-              FileOutputStream fos = new FileOutputStream(new File("img.png"));
+              FileOutputStream fos = new FileOutputStream(new File("twitterimages/" + imageName + "." + extFile));
               int inByte;
               while ((inByte = is.read()) != -1) {
                   fos.write(inByte);
               }
               is.close();
               fos.close();
-
           }else {
           }
       }catch (Exception e){
