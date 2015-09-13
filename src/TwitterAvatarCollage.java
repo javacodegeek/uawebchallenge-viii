@@ -10,6 +10,6 @@ public class TwitterAvatarCollage {
   	public static void main(String[] args){
   	     System.out.println("Run....");
          TwitterClient twitter = TwitterClient.getInstance();
-         twitter.getUserTweets("AntonShevchuk", 10);
+         twitter.getUserFollowings("sportsru", "-1");
   	}
 }

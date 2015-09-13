@@ -25,7 +25,7 @@ public class TwitterClient {
 
     private static  String twitter_api_url = "https://api.twitter.com/1.1";
     private static  String url_user_time_line = "/statuses/user_timeline.json";
-    private static  String url_user_followings = "/statuses/user_timeline.json";
+    private static  String url_user_followings = "/friends/ids.json";
 
 
     private TwitterClient() {
@@ -59,6 +59,19 @@ public class TwitterClient {
                   return null;
             }
         }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+          return null;
+    }
+
+    public static JSONObject getUserFollowings(String screenName, String cursor){
+        String response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
+        try{
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(response);
+            JSONObject jsonObjext = (JSONObject)obj;
+            System.out.println(jsonObjext);
+        }catch(Exception e){
             System.out.println(e.getMessage());
         }
           return null;
