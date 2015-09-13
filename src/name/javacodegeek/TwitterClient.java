@@ -69,8 +69,8 @@ public class TwitterClient {
         try{
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(response);
-            JSONObject jsonObjext = (JSONObject)obj;
-            System.out.println(jsonObjext);
+            JSONObject jsonObject = (JSONObject)obj;
+            return jsonObject;
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
