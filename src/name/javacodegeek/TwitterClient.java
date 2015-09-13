@@ -26,7 +26,7 @@ public class TwitterClient {
     private static  String twitter_api_url = "https://api.twitter.com/1.1";
     private static  String url_user_time_line = "/statuses/user_timeline.json";
     private static  String url_user_followings = "/friends/ids.json";
-
+    private static  String url_users_lookup = "/users/lookup.json";
 
     private TwitterClient() {
 
@@ -64,6 +64,47 @@ public class TwitterClient {
           return null;
     }
 
+    public static void saveImage() {
+      try{
+          OAuthConsumer oAuthConsumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,CONSUMER_SECRET);
+          oAuthConsumer.setTokenWithSecret(ACCESS_TOKEN, CONSUMACCESS_TOKEN_SECRET);
+
+          HttpGet httpGet = new HttpGet("http://pbs.twimg.com/profile_images/590602680340480002/9T12byKD_400x400.png");
+          oAuthConsumer.sign(httpGet);
+
+          HttpClient httpClient = new DefaultHttpClient();
+          HttpResponse httpResponse = httpClient.execute(httpGet);
+
+          int statusCode = httpResponse.getStatusLine().getStatusCode();
+          System.out.println("status code:  " + statusCode);
+          if (statusCode == 200) {
+              /*BufferedReader rd = new BufferedReader(
+              new InputStreamReader(httpResponse.getEntity().getContent()));
+
+              StringBuffer result = new StringBuffer();
+              String line = "";
+              while ((line = rd.readLine()) != null) {
+                result.append(line);
+              }*/
+
+
+              InputStream is = httpResponse.getEntity().getContent();
+
+              FileOutputStream fos = new FileOutputStream(new File("img.png"));
+              int inByte;
+              while ((inByte = is.read()) != -1) {
+                  fos.write(inByte);
+              }
+              is.close();
+              fos.close();
+
+          }else {
+          }
+      }catch (Exception e){
+          System.out.println(e.getMessage());
+      }
+    }
+
     public static JSONObject getUserFollowings(String screenName, String cursor){
         String response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
         try{
@@ -71,6 +112,19 @@ public class TwitterClient {
             Object obj = parser.parse(response);
             JSONObject jsonObject = (JSONObject)obj;
             return jsonObject;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+          return null;
+    }
+
+    public static JSONArray getUserObjectList(String userIds){
+        String response = makeHttpGetRequest(twitter_api_url, url_users_lookup, "?user_id=" + userIds);
+        try{
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(response);
+            JSONArray jsonArray = (JSONArray)obj;
+            return jsonArray;
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
