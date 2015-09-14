@@ -65,7 +65,19 @@ public class TwitterClient {
           return null;
     }
 
-    public static void saveImage(String url, String imageName) {
+
+    public static String generateCollage(String size, String screenName, String fileName){
+      try{
+          Process proc = Runtime.getRuntime().exec("montage -mode concatenate -geometry "+ size + "x"+ size +" twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/*.jpeg twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/"+fileName+".jpg");
+          int returnv=proc.waitFor();
+            return "twitterimages/"+screenName+"/*.jpeg twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/"+fileName+".jpg";
+      }catch(Exception e){
+          System.out.println(e.getMessage());
+      }
+        return null;
+    }
+
+    public static void saveImage(String url, String imageName, String screenName) {
       try{
           OAuthConsumer oAuthConsumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,CONSUMER_SECRET);
           oAuthConsumer.setTokenWithSecret(ACCESS_TOKEN, CONSUMACCESS_TOKEN_SECRET);
@@ -85,7 +97,12 @@ public class TwitterClient {
           System.out.println("status code:  " + statusCode);
           if (statusCode == 200) {
               InputStream is = httpResponse.getEntity().getContent();
-              FileOutputStream fos = new FileOutputStream(new File("twitterimages/" + imageName + "." + extFile));
+
+              String dirname = screenName;
+              File dir = new File("twitterimages/" + dirname);
+              dir.mkdirs();
+
+              FileOutputStream fos = new FileOutputStream(new File("twitterimages/" + dirname + "/" + imageName + "." + extFile));
               int inByte;
               while ((inByte = is.read()) != -1) {
                   fos.write(inByte);
@@ -165,14 +182,6 @@ public class TwitterClient {
 
             return null;
     }
-
-
-
-
-
-
-
-
 
 
     public static TwitterClient getInstance() {
