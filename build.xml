@@ -65,12 +65,14 @@
     <target name = "clean" description = "Clean build">
         <delete dir = "${build.dir}" />
         <delete dir = "${docs.dir}" />
-        <delete dir = "${twitterimages.dir}" />  
+        <delete dir = "${twitterimages.dir}" />
     </target>
 
     <target name = "run" description = "Run programm">
         <java jar = "${jar.dir}/twitter-collage-generator.jar" fork = "true">
           <classpath refid="test.classpath" />
+          <arg value="AntonShevchuk"/>
+          <arg value="1000"/>
         </java>
     </target>
 

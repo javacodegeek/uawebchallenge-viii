@@ -45,7 +45,7 @@ public class TwitterClient {
             HttpResponse httpResponse = httpClient.execute(httpGet);
 
             int statusCode = httpResponse.getStatusLine().getStatusCode();
-            System.out.println("status code:  " + statusCode);
+            //System.out.println("status code:  " + statusCode);
             if (statusCode == 200) {
                 BufferedReader rd = new BufferedReader(
                 new InputStreamReader(httpResponse.getEntity().getContent()));
@@ -68,9 +68,13 @@ public class TwitterClient {
 
     public static String generateCollage(String size, String screenName, String fileName){
       try{
+          System.out.println("Start image generation....");
           Process proc = Runtime.getRuntime().exec("montage -mode concatenate -geometry "+ size + "x"+ size +" twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/*.jpeg twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/"+fileName+".jpg");
           int returnv=proc.waitFor();
-            return "twitterimages/"+screenName+"/*.jpeg twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/"+fileName+".jpg";
+          System.out.println("Finish image generation....");
+
+            return "twitterimages/"+screenName+"/"+fileName+".jpg";
+
       }catch(Exception e){
           System.out.println(e.getMessage());
       }
@@ -94,7 +98,7 @@ public class TwitterClient {
           HttpResponse httpResponse = httpClient.execute(httpGet);
 
           int statusCode = httpResponse.getStatusLine().getStatusCode();
-          System.out.println("status code:  " + statusCode);
+          //System.out.println("status code:  " + statusCode);
           if (statusCode == 200) {
               InputStream is = httpResponse.getEntity().getContent();
 
