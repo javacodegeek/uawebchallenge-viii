@@ -71,8 +71,8 @@
     <target name = "run" description = "Run programm">
         <java jar = "${jar.dir}/twitter-collage-generator.jar" fork = "true">
           <classpath refid="test.classpath" />
-          <arg value="AntonShevchuk"/>
-          <arg value="1000"/>
+             <arg value="${arg0}"/>
+             <arg value="${arg1}"/>
         </java>
     </target>
 
