@@ -7,6 +7,7 @@
     <property name = "classes.dir" value = "build/classes" />
     <property name = "external.lib.dir" value = "lib"/>
     <property name = "twitterimages.dir" value = "twitterimages"/>
+    <property name = "collages.twitterimages.dir" value = "twitterimages/collages" />
 
     <path id="test.classpath">
         <pathelement location = "${external.lib.dir}" />
@@ -24,6 +25,7 @@
         <mkdir dir = "${build.dir}" />
         <mkdir dir = "${classes.dir}" />
         <mkdir dir = "${twitterimages.dir}" />
+        <mkdir dir = "${collages.twitterimages.dir}" />
     </target>
 
    <target name = "compile" description = "Information about compile" depends = "make_dirs">
@@ -66,6 +68,7 @@
         <delete dir = "${build.dir}" />
         <delete dir = "${docs.dir}" />
         <delete dir = "${twitterimages.dir}" />
+        <delete dir = "${collages.twitterimages.dir}" />
     </target>
 
     <target name = "run" description = "Run programm">

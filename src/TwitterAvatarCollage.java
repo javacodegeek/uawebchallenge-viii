@@ -14,13 +14,11 @@ public class TwitterAvatarCollage {
   	     System.out.println("Run programm....");
 
          String screenName = args[0];
-
          String sizePX = args[1];
-
          String flagF = args[2];
 
          TwitterClient twitter = TwitterClient.getInstance();
-
+         ImageGenerator imageGenerator = ImageGenerator.getInstance();
 
          JSONObject followingsObject = twitter.getUserFollowingsorFollowers(screenName, "-1", flagF);
          Object objectFollns = followingsObject.get("ids");
@@ -55,7 +53,6 @@ public class TwitterAvatarCollage {
               for(i=k;i<(k+100)&&i<(ids.length);i++){
                   nextIdsStr.append(ids[i]);
                   if(i<(k+100-1)) {nextIdsStr.append(",");}
-                  //System.out.println(k);
               }
 
               Object userObjects = twitter.getUserObjectList(nextIdsStr.toString());
@@ -72,15 +69,8 @@ public class TwitterAvatarCollage {
               k = i;
          }
 
-
-
-        String link = twitter.generateCollage(sizePX, screenName, "newimage_"+screenName+"_"+sizePX);
-
+        String link = imageGenerator.generateCollage(sizePX, screenName, "newimage_"+screenName+"_"+sizePX);
         System.out.println(link);
-
-
-
-
 
     }
 }

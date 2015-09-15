@@ -67,21 +67,7 @@ public class TwitterClient {
     }
 
 
-    public static String generateCollage(String size, String screenName, String fileName){
-      try{
-          System.out.println("Start image generation....");
-          Process proc = Runtime.getRuntime().exec("montage -mode concatenate -geometry "+ size + "x"+ size +" twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/*.jpeg twitterimages/"+screenName+"/*.jpg twitterimages/"+screenName+"/"+fileName+".jpg");
-          int returnv=proc.waitFor();
-          System.out.println("Finish image generation....");
-
-            return "twitterimages/"+screenName+"/"+fileName+".jpg";
-
-      }catch(Exception e){
-          System.out.println(e.getMessage());
-      }
-        return null;
-    }
-
+  
     public static void saveImage(String url, String imageName, String screenName) {
       try{
           OAuthConsumer oAuthConsumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,CONSUMER_SECRET);
@@ -122,18 +108,18 @@ public class TwitterClient {
     }
 
     public static JSONObject getUserFollowingsorFollowers(String screenName, String cursor, String flagF){
-        switch(){
+        String response = "";
+        switch(flagF){
             case "1":
-                String response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
+                response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
                 break;
-            case "1":
-                String response = makeHttpGetRequest(twitter_api_url, url_user_followers, "?screen_name=" + screenName + "&cursor=" + cursor);
+            case "2":
+                response = makeHttpGetRequest(twitter_api_url, url_user_followers, "?screen_name=" + screenName + "&cursor=" + cursor);
                 break;
             default:
-                String response = makeHttpGetRequest(twitter_api_url, url_user_followers, "?screen_name=" + screenName + "&cursor=" + cursor);
+                response = makeHttpGetRequest(twitter_api_url, url_user_followers, "?screen_name=" + screenName + "&cursor=" + cursor);
                 break;
         }
-        String response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
         try{
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(response);
