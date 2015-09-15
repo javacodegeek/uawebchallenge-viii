@@ -17,10 +17,12 @@ public class TwitterAvatarCollage {
 
          String sizePX = args[1];
 
+         String flagF = args[2];
+
          TwitterClient twitter = TwitterClient.getInstance();
 
 
-         JSONObject followingsObject = twitter.getUserFollowingsorFollowers(screenName, "-1", "1");
+         JSONObject followingsObject = twitter.getUserFollowingsorFollowers(screenName, "-1", flagF);
          Object objectFollns = followingsObject.get("ids");
          JSONArray followingsList = (JSONArray)objectFollns;
          long next_cursor = (long)(followingsObject.get("next_cursor"));
@@ -29,7 +31,7 @@ public class TwitterAvatarCollage {
          idsString = idsString.substring(1,idsString.length()-1);
 
          while(next_cursor != 0){
-              JSONObject nextFollowingsObject = twitter.getUserFollowingsorFollowers(screenName, Long.toString(next_cursor), "1");
+              JSONObject nextFollowingsObject = twitter.getUserFollowingsorFollowers(screenName, Long.toString(next_cursor), flagF);
               Object nextObjectFollns = nextFollowingsObject.get("ids");
               JSONArray nextFollowingsList = (JSONArray)nextObjectFollns;
               next_cursor = (long)(nextFollowingsObject.get("next_cursor"));
