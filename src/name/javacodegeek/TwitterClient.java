@@ -27,6 +27,7 @@ public class TwitterClient {
     private static  String twitter_api_url = "https://api.twitter.com/1.1";
     private static  String url_user_time_line = "/statuses/user_timeline.json";
     private static  String url_user_followings = "/friends/ids.json";
+    private static  String url_user_followers = "/followers/ids.json";
     private static  String url_users_lookup = "/users/lookup.json";
 
     private TwitterClient() {
@@ -120,7 +121,18 @@ public class TwitterClient {
       }
     }
 
-    public static JSONObject getUserFollowings(String screenName, String cursor){
+    public static JSONObject getUserFollowingsorFollowers(String screenName, String cursor, String flagF){
+        switch(){
+            case "1":
+                String response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
+                break;
+            case "1":
+                String response = makeHttpGetRequest(twitter_api_url, url_user_followers, "?screen_name=" + screenName + "&cursor=" + cursor);
+                break;
+            default:
+                String response = makeHttpGetRequest(twitter_api_url, url_user_followers, "?screen_name=" + screenName + "&cursor=" + cursor);
+                break;
+        }
         String response = makeHttpGetRequest(twitter_api_url, url_user_followings, "?screen_name=" + screenName + "&cursor=" + cursor);
         try{
             JSONParser parser = new JSONParser();

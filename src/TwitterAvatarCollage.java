@@ -3,6 +3,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class TwitterAvatarCollage {
+
   	static String consumerKeyStr = "MdFafcZCLZWeuGTtHORVDj9H4";
   	static String consumerSecretStr = "jEH55rNaNtLGrjfbuMcPcHDqp7QeLiw2QeBzIzaH8PUNJ0eQHh";
   	static String accessTokenStr = "3627114675-XbEZYEuDToja7SOWze6TASf4kxVKRqJoBTKmFA4";
@@ -19,7 +20,7 @@ public class TwitterAvatarCollage {
          TwitterClient twitter = TwitterClient.getInstance();
 
 
-         JSONObject followingsObject = twitter.getUserFollowings(screenName, "-1");
+         JSONObject followingsObject = twitter.getUserFollowingsorFollowers(screenName, "-1", "1");
          Object objectFollns = followingsObject.get("ids");
          JSONArray followingsList = (JSONArray)objectFollns;
          long next_cursor = (long)(followingsObject.get("next_cursor"));
@@ -28,7 +29,7 @@ public class TwitterAvatarCollage {
          idsString = idsString.substring(1,idsString.length()-1);
 
          while(next_cursor != 0){
-              JSONObject nextFollowingsObject = twitter.getUserFollowings(screenName, Long.toString(next_cursor));
+              JSONObject nextFollowingsObject = twitter.getUserFollowingsorFollowers(screenName, Long.toString(next_cursor), "1");
               Object nextObjectFollns = nextFollowingsObject.get("ids");
               JSONArray nextFollowingsList = (JSONArray)nextObjectFollns;
               next_cursor = (long)(nextFollowingsObject.get("next_cursor"));
